@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>이팜장터 희석배율 계산기 </title>
+
+    <style>
+        body {
+            background-color: white;
+            color: black;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            background-color: red;
+            color: white;
+            padding: 5px;
+        }
+
+        label {
+            display: block;
+            
+            margin-top: 10px;
+        }
+
+        input[type="number"] {
+            width: 200px;
+        }
+
+        select {
+            width: 100px;
+        }
+
+        button {
+            margin-top: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    
+
+    </style>
+</head>
+
+<body>
+    <img src="https://ww1.freelogovectors.net/wp-content/uploads/2018/04/fmc-logo.png?lossy=1&resize=475%2C142&ssl=1" alt="FMC" style="width: 200px; margin-top: 20px;">
+
+    <h3>이팜장터 희석배수 계산기</h2>
+    <label for="dilution-factor">1. <strong>희석배수</strong>를 입력하세요.</label>
+
+    <input type="number" id="dilution-factor" min="0" step="0.1" required style="height: 2em;">
+
+
+    <label for="amount">2. <strong>사용량</strong>을 입력하세요</label>
+    <select id="substance" required style="height: 2em;">
+        <option value="water">물</option>
+        <option value="solution">원액</option>
+    </select>
+    <input type="number" id="amount" min="0" step="0.1" required style="height: 2em;">
+
+    <select id="unit" required style="height: 2em;">
+        <option value="ml">ml</option>
+        <option value="L">L</option>
+    </select>
+    <br>
+    <label for="check">3. <strong>확인</strong>버튼을 누르세요.</label>
+    <button onclick="calculate()" style="width: 150px;" style="height: 2em;"><strong>확인</strong></button>
+
+    <div id="result"></div>
+    <div id="input-label"></div>
+
+    <script>
+        function calculate() {
+            var dilutionFactor = parseFloat(document.getElementById("dilution-factor").value);
+            var substance = document.getElementById("substance").value;
+            var amount = parseFloat(document.getElementById("amount").value);
+            var unit = document.getElementById("unit").value;
+    
+            if (substance === "water") {
+                var solutionAmount = amount / dilutionFactor;
+                var solutionUnit = (solutionAmount >= 1000) ? "L" : "ml";
+                if (solutionUnit === "L") {
+                    solutionAmount = solutionAmount / 1000; // 변환: ml -> L
+                }
+                document.getElementById("result").innerHTML = "원액: " + solutionAmount + " " + solutionUnit;
+                document.getElementById("input-label").innerHTML = "(" + "희석배수: " + dilutionFactor + ", 물: " + amount + unit + ", 원액: " + solutionAmount + " " + solutionUnit + ")";
+            } else if (substance === "solution") {
+                var waterAmount = amount * dilutionFactor;
+                var waterUnit = (waterAmount >= 1000) ? "L" : "ml";
+                if (waterUnit === "L") {
+                    waterAmount = waterAmount / 1000; // 변환: ml -> L
+                }
+                document.getElementById("result").innerHTML = "물: " + waterAmount + " " + waterUnit;
+                document.getElementById("input-label").innerHTML = "(" + "희석배수: " + dilutionFactor + ", 원액: " + amount + " ml, 물: " + waterAmount + " " + waterUnit + ")";
+            }
+        }
+    </script>    
+       
+    <a href="http://fmckoreamall.com/">
+        <img src="https://www.fmc.com/sites/default/files/styles/nada/public/2022-07/Soybean_hero_0.webp?itok=WZQ_lZmV" alt="FMC" style="width: 200px;">
+    </a>
+    
+</body>
+
+</html>
